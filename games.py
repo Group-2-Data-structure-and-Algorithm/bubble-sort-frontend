@@ -93,7 +93,7 @@ if st.session_state.numbers:
 st.write("Moves: ", st.session_state.moves)
 
 if st.session_state.numbers == sorted(st.session_state.numbers):
-        st.success(f"🎉 You sorted the list in {st.session_state.moves} moves!")
+        st.success(f" You sorted the list in {st.session_state.moves} moves!")
 
 
 
