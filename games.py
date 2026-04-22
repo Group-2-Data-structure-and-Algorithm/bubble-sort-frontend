@@ -1,5 +1,7 @@
 import streamlit as st
+import random 
 
+# Background
 st.markdown(
     """
     <style>
@@ -9,45 +11,95 @@ st.markdown(
     </style>
     """,
     unsafe_allow_html=True)
-
-st.title("BUBBLE SORTING GAME")
-st.image("image1.png", width=200)
+st.title("Welcome TO BUBBLE SORT GAME!")
+st.image("image1.png.jpg", width=800)
 st.markdown("---")
 
+# instructions
 st.markdown("""
 ### How to Play:
-1. Choose a difficulty level.
-2. Click **Generate Numbers** to start.
-3. Use the **Swap buttons** to sort the list step by step.
-""")
+1. choose a difficulty level.
+2. click **Generate Numbers** to start.
+3. use the ** Swap button** to start the list step by step.
+            """)
 
 st.markdown("---")
 
-
-levels = st.selectbox("**Difficulty Level**:", ["Easy", "Medium", "Hard"])
+# Difficulty levels and choices
+levels = st.selectbox("**Difficulty Level**", ["Easy", "Medium", "Hard"])
 choices = st.selectbox("**Choose an option**", ["Show", "Hide"])
 
 
 if choices == "Show":
     if levels == "Easy":
-        st.markdown("""### Instructions:
-        1. Sort 6 numbers step by step.
+        st.markdown("""### Intructions:
+        1. Sort 6 numbers step ny step.
         2. Focus on learning the basics.
-        """)
+                    """)
     elif levels == "Medium":
-        st.markdown("""### Instructions:
+        st.markdown("""### Intructions:
         1. Sort 12 numbers.
         2. Practice efficiency.
-        """)
+                    """)
     else:
-        st.markdown("""### Instructions:
-        1. Sort 24 numbers.
+        st.markdown("""### Intructions:
+        1. Sort 20 numbers.
         2. Bubble Sort compares adjacent numbers and swaps them.
-        3. Aim for speed and accuracy.
-        """)
-st.markdown("<h1 style='color:purple;'>Have Fun While Learning!!</h1>",
-    unsafe_allow_html=True)
+        2. Aim for speed and accuracy.
+                    """)
+st.markdown("---")
 
+if "numbers" not in st.session_state:
+    st.session_state.numbers = []
+
+if "moves" not in st.session_state:
+    st.session_state.moves = 0
+
+if st.button("Generate Numbers"):
+    if levels == "Easy":
+        size = 6
+    elif levels == "Medium":
+        size = 12
+    else:
+        size = 20   
+    
+    st.session_state.numbers = random.sample(range(1, 100), size)
+    st.session_state.moves = 0
+
+if st.session_state.numbers:
+    st.write("##Current List:")
+    st.write(st.session_state.numbers)
+
+    i = st.number_input(
+        "Choose index to swap with next",
+        0,
+        len(st.session_state.numbers) - 2,
+        step=1
+    )
+
+    if st.button("Swap"):
+        arr = st.session_state.numbers
+
+        #swap
+        arr[i], arr[i + 1] = arr[i + 1], arr[i]
+        st.session_state.moves += 1
+
+        #feedback
+        if arr[i] > arr[i + 1]:
+            st.warning(" That swap may not help!")
+        else:
+            st.success(" Good swap!")
+
+st.write("Moves: ", st.session_state.moves)
+
+if st.session_state.numbers == sorted(st.session_state.numbers):
+        st.success(f"🎉 You sorted the list in {st.session_state.moves} moves!")
+
+
+
+
+st.markdown("<H1 STYLE ='color:purple;'>Have Fun While Learning!!<?h1>",
+    unsafe_allow_html=True)
 
 
     
